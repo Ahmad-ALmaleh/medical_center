@@ -21,6 +21,12 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'birth_date',
+        'gender',
+        'phone',
+        'address',
+        'is_active',
     ];
 
     /**
@@ -44,5 +50,34 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+     /* ======================
+       العلاقات
+    ====================== */
+
+    public function doctor()
+    {
+        return $this->hasOne(Doctor::class);
+    }
+
+    public function employee()
+    {
+        return $this->hasOne(Employee::class);
+    }
+
+    public function patient()
+    {
+        return $this->hasOne(Patient::class);
+    }
+
+    public function createdAppointments()
+    {
+        return $this->hasMany(Appointment::class, 'created_by');
+    }
+
+    public function uploadedMedicalFiles()
+    {
+        return $this->hasMany(MedicalRecordFile::class, 'uploaded_by');
     }
 }
