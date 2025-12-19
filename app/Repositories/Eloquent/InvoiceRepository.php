@@ -12,19 +12,20 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
         $this->model = $invoice;
     }
 
-    public function getUnpaid()
-    {
-        return $this->model
-            ->where('payment_status', 'unpaid')
-            ->with(['patient.user', 'clinic'])
-            ->get();
-    }
+
 
     public function getByPatient(int $patientId)
     {
         return $this->model
             ->where('patient_id', $patientId)
             ->with(['appointment', 'clinic'])
+            ->get();
+    }
+
+    public function getByClinic(int $clinicId)
+    {
+        return $this->model->where('clinic_id', $clinicId)
+            ->with(['patient.user', 'clinic'])
             ->get();
     }
 }
